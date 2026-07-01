@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>FetchTube Downloader</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="logo-container">
+            <img src="assets/logo.png" alt="App Logo" class="app-logo">
+        </div>
+
+        <header>
+            <div class="header-main">
+                <h1>FetchTube Downloader</h1>
+            </div>
+        </header>
+
+        <main>
+            <div class="input-group">
+                <input type="text" id="video-url" placeholder="Paste your YouTube link here...">
+                <button id="fetch-btn" onclick="fetchVideoInfo()">Load Video</button>
+            </div>
+
+            <div id="preview-box" class="hidden">
+                <img id="video-thumb" src="" alt="Thumbnail">
+                <div class="video-details">
+                    <h3 id="video-title">Video Title</h3>
+                    <div class="download-buttons">
+                        <button class="btn mp3-btn" onclick="downloadVideo('mp3')">Download MP3</button>
+                        <button class="btn mp4-btn" onclick="downloadVideo('mp4')">Download MP4</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="history-section">
+                <div class="history-header">
+                    <h3>Download History</h3>
+                    <button id="clear-all-btn" onclick="clearAllHistory()">Clear All</button>
+                </div>
+                <ul id="history-list"></ul>
+            </div>
+        </main>
+
+        <footer>
+            <hr class="footer-divider">
+            <div class="app-description">
+                <h3>About Our Service</h3>
+                <p>
+​Welcome to FetchTube, your ultimate solution for fast, reliable, and high-quality video downloads. Our mission is simple: to give you the freedom to enjoy your favorite video content anytime, anywhere—entirely offline.
+​We understand that slow internet connections, data limits, and sudden content removals can get in the way of your entertainment and learning. That’s why we engineered a seamless, lightweight application that strips away the hassle and delivers your favorite media directly to your device in seconds.</p>
+            </div>
+            <div class="footer-links">
+                <a href="assets/tos.html">Terms of Service</a>
+                <a href="assets/privacy.html">Privacy Policy</a>
+                <a href="assets/copyright.html">Copyright Policy</a>
+            </div>
+            <p class="copyright-text">&copy; 2026 Ytmp3 Downloader. All Rights Reserved.</p>
+        </footer>
+    </div>
+
+    <div id="custom-modal" class="modal-overlay hidden">
+        <div class="modal-box">
+            <h3 id="modal-title">Notification</h3>
+            <p id="modal-message">Message text goes here.</p>
+            <div class="modal-actions" id="modal-actions"></div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
+
