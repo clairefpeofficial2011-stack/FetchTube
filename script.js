@@ -8,7 +8,7 @@ document.addEventListener("DOMContentLoaded", () => {
     initGoogleAuth();
 });
 
-// Utility: Decodes Google's Identity JWT token safely without external libraries
+// Utility: Decodes Google's Identity JWT token safely
 function parseJwt(token) {
     try {
         const base64Url = token.split('.')[1];
@@ -116,11 +116,12 @@ function updateAuthUI() {
     }
 }
 
+// Rewritten: Fetches details and immediately routes into an automated browser file attachment download
 async function fetchVideoInfo() {
     const url = document.getElementById('video-url').value.trim();
     if (!url) return showCustomAlert('Input Required', 'Please paste a valid YouTube video link first.');
     const fetchBtn = document.getElementById('fetch-btn');
-    fetchBtn.innerText = "Loading...";
+    fetchBtn.innerText = "Downloading...";
 
     try {
         const response = await fetch('/api/info', {
@@ -131,23 +132,16 @@ async function fetchVideoInfo() {
         const data = await response.json();
         if (data.error) throw new Error(data.error);
 
-        currentVideo = data;
-        document.getElementById('video-thumb').src = data.thumbnail;
-        document.getElementById('video-title').innerText = data.title;
-        document.getElementById('preview-box').classList.remove('hidden');
+        // Instantly force a file download window prompt instead of drawing a video player/preview UI
+        const downloadUrl = `/api/download?url=${encodeURIComponent(url)}`;
+        window.location.href = downloadUrl;
+
+        saveToHistory(data.title, 'FILE');
     } catch (err) {
-        showCustomAlert('Error', err.message || 'Could not load video information.');
+        showCustomAlert('Error', err.message || 'Could not initiate download process.');
     } finally {
-        fetchBtn.innerText = "Load Video";
+        fetchBtn.innerText = "Download Video";
     }
-}
-
-function downloadVideo(format) {
-    if (!currentVideo) return;
-
-    const downloadUrl = `/api/download?url=${encodeURIComponent(currentVideo.url)}&format=${format}`;
-    window.location.href = downloadUrl;
-    saveToHistory(currentVideo.title, format);
 }
 
 function saveToHistory(title, format) {
@@ -165,6 +159,8 @@ function saveToHistory(title, format) {
     localStorage.setItem('yt_history', JSON.stringify(history));
     renderHistory();
 }
+
+// Unused legacy download format logic is cleanly removed
 
 function renderHistory() {
     const historyList = document.getElementById('history-list');
@@ -204,4 +200,3 @@ function clearAllHistory() {
         }
     );
 }
-
